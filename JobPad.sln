@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29613.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobPad", "JobPad\JobPad.csproj", "{62B3CCEF-3E50-4FD1-A1E3-C2AC5467C35E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{62B3CCEF-3E50-4FD1-A1E3-C2AC5467C35E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62B3CCEF-3E50-4FD1-A1E3-C2AC5467C35E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62B3CCEF-3E50-4FD1-A1E3-C2AC5467C35E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62B3CCEF-3E50-4FD1-A1E3-C2AC5467C35E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FBA105B8-EC35-4847-9DCD-1A4A9B8458B7}
+	EndGlobalSection
+EndGlobal
