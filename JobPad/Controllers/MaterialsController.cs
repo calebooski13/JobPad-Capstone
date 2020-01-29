@@ -7,21 +7,31 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using JobPad.Data;
 using JobPad.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace JobPad.Controllers
 {
     public class MaterialsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private UserManager<ApplicationUser> _userManager;
 
-        public MaterialsController(ApplicationDbContext context)
+        public MaterialsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager
+            )
         {
             _context = context;
+            _userManager = userManager;
         }
-
+        // Private method to get current user
+        private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
         // GET: Materials
         public async Task<IActionResult> Index()
         {
+
+            var currentUser = await _userManager.GetUserAsync(HttpContext.User);
+
+            ViewData["currentUser"] = currentUser;
+
             var applicationDbContext = _context.Materials.Include(m => m.Job);
             return View(await applicationDbContext.ToListAsync());
         }

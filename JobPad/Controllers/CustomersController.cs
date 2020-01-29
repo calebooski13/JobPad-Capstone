@@ -7,23 +7,46 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using JobPad.Data;
 using JobPad.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace JobPad.Controllers
 {
     public class CustomersController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private UserManager<ApplicationUser> _userManager;
 
-        public CustomersController(ApplicationDbContext context)
+        public CustomersController(ApplicationDbContext context, UserManager<ApplicationUser> userManager
+            )
         {
             _context = context;
+            _userManager = userManager;
         }
+
+        // Private method to get current user
+        private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
 
         // GET: Customers
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Customers.Include(c => c.User);
-            return View(await applicationDbContext.ToListAsync());
+            var currentUser = await _userManager.GetUserAsync(HttpContext.User);
+
+            ViewData["currentUser"] = currentUser;
+
+            var applicationDbContext = _context.Customers.Where(c => c.UserId == currentUser.Id).Include(c => c.User).Include(c=> c.Jobs);
+
+            if(currentUser != null)
+            {
+                return View(await applicationDbContext.ToListAsync());
+            }
+            else 
+            {
+                // return NotFound();
+                return RedirectToAction(nameof(Index));
+            }
+                
+
+            
         }
 
         // GET: Customers/Details/5
@@ -34,9 +57,12 @@ namespace JobPad.Controllers
                 return NotFound();
             }
 
+            var user = await GetCurrentUserAsync();
+
             var customer = await _context.Customers
                 .Include(c => c.User)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .Include(c => c.Jobs)
+                .FirstOrDefaultAsync(m => m.Id == id && m.User == user);
             if (customer == null)
             {
                 return NotFound();
@@ -59,13 +85,19 @@ namespace JobPad.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,PhoneNumber,EmailAddress,UserId")] Customer customer)
         {
+            var currentUser = await _userManager.GetUserAsync(HttpContext.User);
+
             if (ModelState.IsValid)
             {
+                
+
+               // ViewData["currentUser"] = currentUser.Id;
+                customer.UserId = currentUser.Id;
                 _context.Add(customer);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserId"] = new SelectList(_context.ApplicationUsers, "Id", "Id", customer.UserId);
+           // ViewData["UserId"] = new SelectList(_context.ApplicationUsers, "Id", "Id", customer.UserId);
             return View(customer);
         }
 
