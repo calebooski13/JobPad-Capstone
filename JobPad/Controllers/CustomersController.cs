@@ -14,6 +14,7 @@ namespace JobPad.Controllers
     public class CustomersController : Controller
     {
         private readonly ApplicationDbContext _context;
+        // Private field to store user manager
         private UserManager<ApplicationUser> _userManager;
 
         public CustomersController(ApplicationDbContext context, UserManager<ApplicationUser> userManager
@@ -33,7 +34,7 @@ namespace JobPad.Controllers
 
             ViewData["currentUser"] = currentUser;
 
-            var applicationDbContext = _context.Customers.Where(c => c.UserId == currentUser.Id).Include(c => c.User).Include(c=> c.Jobs);
+            var applicationDbContext = _context.Customers.Where(c => c.UserId == currentUser.Id).Include(c => c.User).Include(c=> c.Jobs).OrderBy(c=>c.LastName);
 
             if(currentUser != null)
             {
@@ -85,19 +86,20 @@ namespace JobPad.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,PhoneNumber,EmailAddress,UserId")] Customer customer)
         {
+            // Get the current user from the database and set the customer property UserId = the current user id
             var currentUser = await _userManager.GetUserAsync(HttpContext.User);
 
             if (ModelState.IsValid)
             {
-                
 
-               // ViewData["currentUser"] = currentUser.Id;
+
+                // The userId is set by grabbing the currentUser.Id
                 customer.UserId = currentUser.Id;
                 _context.Add(customer);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-           // ViewData["UserId"] = new SelectList(_context.ApplicationUsers, "Id", "Id", customer.UserId);
+           
             return View(customer);
         }
 

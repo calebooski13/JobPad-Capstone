@@ -27,11 +27,11 @@ namespace JobPad.Controllers
         // GET: Jobs
         public async Task<IActionResult> Index()
         {
-            var currentUser = await _userManager.GetUserAsync(HttpContext.User);
+            var currentUser = await GetCurrentUserAsync();
 
-            ViewData["currentUser"] = currentUser;
-
-            var applicationDbContext = _context.Jobs.Include(j => j.Customer).Include(m=> m.Materials);
+            var applicationDbContext = _context.Jobs
+                .Include(j => j.Customer)
+                .Where(j => j.Customer.UserId == currentUser.Id);
             return View(await applicationDbContext.ToListAsync());
         }
 

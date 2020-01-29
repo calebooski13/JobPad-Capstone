@@ -14,10 +14,8 @@ namespace JobPad.Models
         public string Address { get; set; }
         public int CustomerId { get; set; }
 
-      //  public bool Trim { get; set; }
-      //  public bool Walls { get; set; }
-      //  public bool Ceiling { get; set; }
         public Customer Customer { get; set; }
+
         public List<Material> Materials { get; set; } = new List<Material>();
 
     }

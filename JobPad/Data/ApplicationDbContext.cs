@@ -64,7 +64,7 @@ namespace JobPad.Data
 
                 });
 
-            // Create som jobs
+            // Create some jobs
             modelBuilder.Entity<Job>().HasData(
                 new Job()
                 {
