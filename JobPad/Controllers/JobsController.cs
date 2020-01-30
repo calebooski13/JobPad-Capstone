@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using JobPad.Data;
 using JobPad.Models;
 using Microsoft.AspNetCore.Identity;
+using JobPad.Models.ViewModels;
 
 namespace JobPad.Controllers
 {
@@ -22,18 +23,26 @@ namespace JobPad.Controllers
             _context = context;
             _userManager = userManager;
         }
+
+
         // Private method to get current user
         private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
+
+
         // GET: Jobs
         public async Task<IActionResult> Index()
         {
-            var currentUser = await GetCurrentUserAsync();
+            var currentUser = await _userManager.GetUserAsync(HttpContext.User);
+
+            ViewData["currentUser"] = currentUser;
 
             var applicationDbContext = _context.Jobs
                 .Include(j => j.Customer)
                 .Where(j => j.Customer.UserId == currentUser.Id);
             return View(await applicationDbContext.ToListAsync());
         }
+
+
 
         // GET: Jobs/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -44,7 +53,7 @@ namespace JobPad.Controllers
             }
 
             var job = await _context.Jobs
-                //.Include(j => j.Customer)
+                .Include(j => j.Customer)
                 .Include(j => j.Materials)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (job == null)
@@ -56,10 +65,24 @@ namespace JobPad.Controllers
         }
 
         // GET: Jobs/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            var currentUser = await _userManager.GetUserAsync(HttpContext.User);
+
+            List<Customer> customers = await _context.Customers.Where(c => c.UserId == currentUser.Id).ToListAsync();
+
+            var viewModel = new JobCreateViewModel()
+            {
+                CustomerOptions = customers.Select(c => new SelectListItem
+                {
+                    Value = c.Id.ToString(),
+                    Text = c.FirstName + " " + c.LastName
+                    
+                }).ToList()
+            };
+
             ViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "EmailAddress");
-            return View();
+            return View(viewModel);
         }
 
         // POST: Jobs/Create

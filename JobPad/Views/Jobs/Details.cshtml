@@ -4,22 +4,23 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<h1>Job Info</h1>
 
 <div>
-    <h4>Job</h4>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.EstimatedJobCost)
         </dt>
         <dd class="col-sm-10">
+            $
             @Html.DisplayFor(model => model.EstimatedJobCost)
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.FinalCost)
         </dt>
         <dd class="col-sm-10">
+            $
             @Html.DisplayFor(model => model.FinalCost)
         </dd>
         <dt class="col-sm-2">
@@ -28,29 +29,49 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.IsPaid)
         </dd>
+    </dl>
+    <dl>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Address)
+            <h3>Materials</h3> 
         </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Address)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Customer)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Customer.EmailAddress)
-        </dd>
-        <dt class="col-sm-2">
-            Materials
-        </dt>
+        <br />
+
         @foreach (var material in Model.Materials)
         {
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => material.MaterialType)
+            </dt>
             <dd class="col-sm-10">
-                @Html.DisplayFor(model => material.MaterialType) @Html.DisplayFor(model => material.PaintBrand) @Html.DisplayFor(model => material.PaintColor) @Html.DisplayFor(model => material.TotalMaterialCost)
+                @Html.DisplayFor(model => material.MaterialType)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => material.PaintBrand)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => material.PaintBrand)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => material.PaintColor)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => material.PaintColor)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => material.TotalMaterialCost)
+            </dt>
+            <dd class="col-sm-10">
+                $
+                @Html.DisplayFor(model => material.TotalMaterialCost)
             </dd>
         }
     </dl>
 </div>
+<div>
+    @*Route to "create materials" for a specific job*@
+    <a asp-controller="Materials" asp-route-id="@Model.Materials" asp-action="Create">Add Materials</a>
+</div>
+<br />
+<br />
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
