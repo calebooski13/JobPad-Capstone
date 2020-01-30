@@ -67,15 +67,17 @@ namespace JobPad.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,MaterialType,PaintBrand,PaintColor,TotalMaterialCost,JobId")] Material material)
+        public async Task<IActionResult> Create(int Id,[Bind("Id,MaterialType,PaintBrand,PaintColor,TotalMaterialCost")] Material material)
         {
+            ModelState.Remove("JobId");
             if (ModelState.IsValid)
             {
+                var currentUser = await _userManager.GetUserAsync(HttpContext.User);
+                material.JobId = Id;
                 _context.Add(material);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["JobId"] = new SelectList(_context.Jobs, "Id", "Id", material.JobId);
             return View(material);
         }
 
