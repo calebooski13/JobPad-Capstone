@@ -38,7 +38,8 @@ namespace JobPad.Controllers
 
             var applicationDbContext = _context.Jobs
                 .Include(j => j.Customer)
-                .Where(j => j.Customer.UserId == currentUser.Id);
+                .Where(j => j.Customer.UserId == currentUser.Id)
+                .OrderBy(j => j.Customer.LastName);
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -105,18 +106,29 @@ namespace JobPad.Controllers
         // GET: Jobs/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            var currentUser = await _userManager.GetUserAsync(HttpContext.User);
+
+            List<Customer> customers = await _context.Customers.Where(c => c.UserId == currentUser.Id).ToListAsync();
 
             var job = await _context.Jobs.FindAsync(id);
             if (job == null)
             {
                 return NotFound();
             }
-            ViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "EmailAddress", job.CustomerId);
-            return View(job);
+
+            var viewModel = new JobCreateViewModel()
+            {
+                Job=job,
+                CustomerOptions = customers.Select(c => new SelectListItem
+                {
+                    Value = c.Id.ToString(),
+                    Text = c.FirstName + " " + c.LastName
+
+                }).ToList()
+            };
+
+            ViewData["CustomerId,"] = new SelectList(_context.Customers, "Id", "EmailAddress");
+            return View(viewModel);
         }
 
         // POST: Jobs/Edit/5
@@ -124,8 +136,11 @@ namespace JobPad.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,EstimatedJobCost,FinalCost,IsPaid,Address,CustomerId")] Job job)
+        public async Task<IActionResult> Edit(int id,JobCreateViewModel viewModel)
         {
+
+            var job = viewModel.Job;
+
             if (id != job.Id)
             {
                 return NotFound();
@@ -151,8 +166,8 @@ namespace JobPad.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "EmailAddress", job.CustomerId);
-            return View(job);
+            ViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "EmailAddress", viewModel.Job.CustomerId);
+            return View(viewModel.Job);
         }
 
         // GET: Jobs/Delete/5
