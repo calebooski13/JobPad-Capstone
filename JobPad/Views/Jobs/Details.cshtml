@@ -30,12 +30,18 @@
             @Html.DisplayFor(model => model.IsPaid)
         </dd>
     </dl>
+    <div>
+        <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+    </div>
+    <br />
     <dl>
         <dt class="col-sm-2">
-            <h3>Materials</h3> 
+            <h3>Materials</h3>
         </dt>
         <br />
-
+        <a asp-controller="Materials" asp-route-id="@Model.Id" asp-action="Create">Jobs Materials</a>
+        <br />
+        <br />
         @foreach (var material in Model.Materials)
         {
             <dt class="col-sm-2">
@@ -68,13 +74,11 @@
 </div>
 <div>
     @*Route to "create materials" for a specific job*@
-    <a asp-controller="Materials" asp-route-id="@Model.Id" asp-action="Create">Add Materials</a>
     <br />
-    <a asp-controller="Materials" asp-route-id="@Model.Id" asp-action="Edit">Edit Materials</a>
+    <a asp-controller="Materials" asp-route-id="@Model.Id" asp-action="Edit">Add/Change Materials</a>
 </div>
 <br />
 <br />
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Back to Jobs</a>
 </div>
