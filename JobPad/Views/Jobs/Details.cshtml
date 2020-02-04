@@ -39,45 +39,53 @@
             <h3>Materials</h3>
         </dt>
         <br />
-        <a asp-controller="Materials" asp-route-id="@Model.Id" asp-action="Create">Jobs Materials</a>
-        <br />
-        <br />
-        @foreach (var material in Model.Materials)
+        @if (Model.Materials.Count == 0)
         {
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => material.MaterialType)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => material.MaterialType)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => material.PaintBrand)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => material.PaintBrand)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => material.PaintColor)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => material.PaintColor)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => material.TotalMaterialCost)
-            </dt>
-            <dd class="col-sm-10">
-                $
-                @Html.DisplayFor(model => material.TotalMaterialCost)
-            </dd>
+            <a asp-controller="Materials" asp-route-id="@Model.Id" asp-action="Create">Jobs Materials</a>
+            <br />
         }
+        else
+        {
+            <br />
+            @foreach (var material in Model.Materials)
+            {
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => material.MaterialType)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => material.MaterialType)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => material.PaintBrand)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => material.PaintBrand)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => material.PaintColor)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => material.PaintColor)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => material.TotalMaterialCost)
+                </dt>
+                <dd class="col-sm-10">
+                    $
+                    @Html.DisplayFor(model => material.TotalMaterialCost)
+                </dd>
+                <div>
+                    @*Route to "create materials" for a specific job*@
+                    <br />
+                    <a asp-controller="Materials" asp-route-id="@material.Id" asp-action="Edit">Add/Change Materials</a>
+                </div>
+            }
+        }
+
     </dl>
 </div>
-<div>
-    @*Route to "create materials" for a specific job*@
-    <br />
-    <a asp-controller="Materials" asp-route-id="@Model.Id" asp-action="Edit">Add/Change Materials</a>
-</div>
 <br />
+<a asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
 <br />
 <div>
     <a asp-action="Index">Back to Jobs</a>
