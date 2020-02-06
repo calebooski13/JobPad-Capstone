@@ -136,6 +136,8 @@ namespace JobPad.Controllers
             {
                 try
                 {
+                    var currentUser = await _userManager.GetUserAsync(HttpContext.User);
+                    customer.UserId = currentUser.Id;
                     _context.Update(customer);
                     await _context.SaveChangesAsync();
                 }

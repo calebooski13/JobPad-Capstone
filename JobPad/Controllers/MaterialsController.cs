@@ -58,7 +58,7 @@ namespace JobPad.Controllers
         // GET: Materials/Create
         public IActionResult Create()
         {
-            ViewData["JobId"] = new SelectList(_context.Jobs, "Id", "Id");
+           // ViewData["JobId"] = new SelectList(_context.Jobs, "Id", "Id");
             return View();
         }
 
@@ -67,15 +67,18 @@ namespace JobPad.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,MaterialType,PaintBrand,PaintColor,TotalMaterialCost,JobId")] Material material)
+        public async Task<IActionResult> Create(int Id,[Bind("MaterialType,PaintBrand,PaintColor,TotalMaterialCost,JobId")] Material material)
         {
+
+            ModelState.Remove("JobId");
             if (ModelState.IsValid)
             {
-                _context.Add(material);
+                material.Id = 0;
+                material.JobId = Id;
+                _context.Materials.Add(material);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details","Jobs",new { id = material.JobId });
             }
-            ViewData["JobId"] = new SelectList(_context.Jobs, "Id", "Id", material.JobId);
             return View(material);
         }
 
@@ -92,6 +95,7 @@ namespace JobPad.Controllers
             {
                 return NotFound();
             }
+
             ViewData["JobId"] = new SelectList(_context.Jobs, "Id", "Id", material.JobId);
             return View(material);
         }
@@ -101,7 +105,7 @@ namespace JobPad.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,MaterialType,PaintBrand,PaintColor,TotalMaterialCost,JobId")] Material material)
+        public async Task<IActionResult> Edit(int id, Material material)
         {
             if (id != material.Id)
             {
@@ -126,7 +130,7 @@ namespace JobPad.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details","Jobs", new {id = material.JobId });
             }
             ViewData["JobId"] = new SelectList(_context.Jobs, "Id", "Id", material.JobId);
             return View(material);
