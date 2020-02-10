@@ -4,9 +4,9 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Customer Info</h1>
+<h1 class="text-light text-center">Customer Info</h1>
 
-<div>
+@*<div>
     
     <hr />
     <dl class="row">
@@ -39,4 +39,14 @@
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
+</div>*@
+
+<div class="card text-black-50 bg-light mb-3 rounded-pill text-center m-3 border  border-dark justify-content-center" style="width: 18rem;">
+    <h5 class="card-header">@Html.DisplayFor(model => model.FirstName) @Html.DisplayFor(model => model.LastName)</h5>
+    <div class="card-body">
+        <p class="card-text">@Html.DisplayFor(model => model.PhoneNumber)</p>
+        <p class="card-text">@Html.DisplayFor(model => model.EmailAddress)</p>
+        <a class= "btn btn-outline-dark rounded-pill text-center" asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+        <a class= "btn btn-outline-dark rounded-pill text-center" asp-action="Index">Back to List</a>
+    </div>
 </div>

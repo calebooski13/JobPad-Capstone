@@ -9,7 +9,7 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        @*<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">JobPad</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -20,7 +20,8 @@
                     <partial name="_LoginPartial" />
                     <ul class="navbar-nav flex-grow-1">
 
-                        @if (ViewData["currentUser"]!=null) { 
+                        @if (ViewData["currentUser"]!=null) {
+
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Jobs" asp-action="Index">Jobs</a>
                             </li>
@@ -31,7 +32,38 @@
                     </ul>
                 </div>
             </div>
-        </nav>
+        </nav>*@
+        <div class="pos-f-t">
+            <div class="collapse" id="navbarToggleExternalContent">
+                <div class="bg-dark p-4">
+                    <a class="navbar-brand text-success" asp-area="" asp-controller="Home" asp-action="Index">JobPad</a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <partial name="_LoginPartial" />
+                    <ul class="navbar-nav flex-grow-1 ">
+
+                        @if (ViewData["currentUser"] != null)
+                        {
+                        <div class="login-logout-container align-content-end">
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-area="" asp-controller="Jobs" asp-action="Index">Jobs</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-area="" asp-controller="Customers" asp-action="Index">Customers</a>
+                            </li>
+                        </div>
+                        }
+                    </ul>
+                </div>
+            </div>
+            <nav class="navbar navbar-dark bg-dark">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </nav>
+        </div>
     </header>
     <div class="container">
         <main role="main" class="pb-3">

@@ -4,7 +4,7 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Jobs Material</h1>
+<h1 class="text-light">Jobs Material</h1>
 
 <hr />
 <div class="row">
@@ -13,39 +13,39 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
-                <label asp-for="MaterialType" class="control-label"></label>
+                <label asp-for="MaterialType" class="control-label text-light"></label>
                 <input asp-for="MaterialType" class="form-control" />
                 <span asp-validation-for="MaterialType" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="PaintBrand" class="control-label"></label>
+                <label asp-for="PaintBrand" class="control-label text-light"></label>
                 <input asp-for="PaintBrand" class="form-control" />
                 <span asp-validation-for="PaintBrand" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="PaintColor" class="control-label"></label>
+                <label asp-for="PaintColor" class="control-label text-light"></label>
                 <input asp-for="PaintColor" class="form-control" />
                 <span asp-validation-for="PaintColor" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="TotalMaterialCost" class="control-label"></label>
+                <label asp-for="TotalMaterialCost" class="control-label text-light"></label>
                 <input asp-for="TotalMaterialCost" class="form-control" />
                 <span asp-validation-for="TotalMaterialCost" class="text-danger"></span>
             </div>
             <div class="form-group" hidden>
-                <label asp-for="JobId" class="control-label"></label>
+                <label asp-for="JobId" class="control-label text-light"></label>
                 <select asp-for="JobId" class="form-control" asp-items="ViewBag.JobId"></select>
                 <span asp-validation-for="JobId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary"/>
+                <input type="submit" value="Save" class= "btn btn-outline-dark rounded-pill text-center text-light"/>
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-controller="Jobs" asp-action="Index">Back to Jobs</a>
+    <a class= "btn btn-outline-dark rounded-pill text-center text-light" asp-controller="Jobs" asp-action="Index">Back to Jobs</a>
 </div>
 
 @section Scripts {

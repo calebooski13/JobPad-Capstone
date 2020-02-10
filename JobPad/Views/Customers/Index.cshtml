@@ -4,12 +4,12 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Customers</h1>
+<h1 class="text-center text-light">Your Customers</h1>
 
 <p>
-    <a asp-action="Create">Add Customer</a>
+    <a class= "btn btn-outline-dark rounded-pill text-center text-light" asp-action="Create">Add Customer</a>
 </p>
-<table class="table">
+@*<table class="table">
     <thead>
         <tr>
             <th>
@@ -19,15 +19,28 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.FirstName) @Html.DisplayFor(modelItem => item.LastName)
-            </td>
-            <td>
-                <a asp-action="Details" asp-route-id="@item.Id">View</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstName) @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id">View</a>
+                </td>
+            </tr>
+        }
     </tbody>
-</table>
+</table>*@
+
+<div class="card-container">
+    @foreach (var item in Model)
+    {
+        <div class="card text-black-50 bg-light mb-3 rounded-pill text-center m-3 border  border-dark  " style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">@Html.DisplayFor(modelItem => item.FirstName) @Html.DisplayFor(modelItem => item.LastName)</h5>
+                <p class="card-text">@Html.DisplayFor(modelItem => item.PhoneNumber)</p>
+                <a class="btn btn-outline-light rounded-pill border border-dark text-black-50" asp-action="Details" asp-route-id="@item.Id">View</a>
+            </div>
+        </div> }
+</div>
