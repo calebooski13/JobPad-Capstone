@@ -4,30 +4,26 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Jobs</h1>
+<h1 class="text-light text-center">Jobs</h1>
 
 <p>
-    <a asp-action="Create">Got Work</a>
+    @if (Model.Count() > 0)
+    {
+        <a class= "btn btn-outline-dark rounded-pill text-center text-light" asp-action="Create">New Job</a>
+    }
+
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.IsPaid)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Customer)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Address)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Customer.PhoneNumber)
-            </th>
-        </tr>
-    </thead>
+<table class="table text-light">
     <tbody>
-@foreach (var item in Model) {
+        @if (Model.Count() == 0)
+        {
+            <tr>
+                <td>
+                    You must <a href="/Customers/Create">create a customer</a> before creating a new job
+                </td>
+            </tr>
+        }
+@*@foreach (var item in Model) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.IsPaid)
@@ -48,4 +44,18 @@
         </tr>
 }
     </tbody>
-</table>
+</table>*@
+
+<div class="card-container">
+    @foreach (var item in Model)
+    {
+        <div class="card text-black-50 bg-light mb-3 rounded-pill text-center m-3 border  border-dark  " style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">@Html.DisplayFor(modelItem => item.Customer.FirstName) @Html.DisplayFor(modelItem => item.Customer.LastName)</h5>
+                <p class="card-text">@Html.DisplayFor(modelItem => item.Address)</p>
+                <p class="card-text">@Html.DisplayFor(modelItem => item.Customer.PhoneNumber)</p>
+                <p class="card-text"> Paid @Html.DisplayFor(modelItem => item.IsPaid)</p>
+                <a class="btn btn-outline-light rounded-pill border border-dark text-black-50" asp-action="Details" asp-route-id="@item.Id">View</a>
+            </div>
+        </div>}
+</div>

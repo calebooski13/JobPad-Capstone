@@ -4,7 +4,7 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Job Info</h1>
+<h1 class="text-light text-center">Job Info</h1>
 
 <hr />
 <div class="row">
@@ -13,31 +13,31 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Job.Id" />
             <div class="form-group">
-                <label asp-for="Job.EstimatedJobCost" class="control-label"></label>
+                <label asp-for="Job.EstimatedJobCost" class="control-label text-light"></label>
                 <input asp-for="Job.EstimatedJobCost" class="form-control" />
                 <span asp-validation-for="Job.EstimatedJobCost" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Job.FinalCost" class="control-label"></label>
+                <label asp-for="Job.FinalCost" class="control-label text-light"></label>
                 <input asp-for="Job.FinalCost" class="form-control" />
                 <span asp-validation-for="Job.FinalCost" class="text-danger"></span>
             </div>
             <div class="form-group form-check">
-                <label class="form-check-label">
+                <label class="form-check-label text-light">
                     <input class="form-check-input" asp-for="Job.IsPaid" /> @Html.DisplayNameFor(model => model.Job.IsPaid)
                 </label>
             </div>
             <div class="form-group">
-                <label asp-for="Job.Address" class="control-label"></label>
+                <label asp-for="Job.Address" class="control-label text-light"></label>
                 <input asp-for="Job.Address" class="form-control" />
                 <span asp-validation-for="Job.Address" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Job.CustomerId" class="control-label"></label>
+                <label asp-for="Job.CustomerId" class="control-label text-light"></label>
                 <select asp-for="Job.CustomerId" class="form-control" asp-items="@Model.CustomerOptions"></select>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Save" "btn btn-outline-dark rounded-pill text-center text-light" />
             </div>
         </form>
     </div>
